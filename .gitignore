@@ -1,0 +1,5 @@
+*.sw*
+_build
+*~*
+*#*
+compilation-test/*
