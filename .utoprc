@@ -1,0 +1,14 @@
+profile:                  dark
+identifier.foreground:    none
+module.foreground:        x-purple
+comment.foreground:       x-chocolate1
+doc.foreground:           x-light-salmon
+constant.foreground:      x-red
+keyword.foreground:       x-orange
+symbol.foreground:        x-orange
+string.foreground:        x-light-salmon
+char.foreground:          x-light-salmon
+quotation.foreground:     x-purple
+error.foreground:         red
+directive.foreground:     x-lightsteelblue
+parenthesis.background:   blue
