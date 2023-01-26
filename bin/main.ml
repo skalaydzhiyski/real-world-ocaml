@@ -56,7 +56,7 @@ let numbers = [|1;2;3;4;5|]
 let first = numbers.(0)
 let update_second_element () = numbers.(1) <- 128
 
-let sum nums =
+let sum_of_list nums =
   let sum = ref 0 in
   List.iter nums ~f:(fun current -> sum := !sum + current);
   !sum
