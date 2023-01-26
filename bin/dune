@@ -1,0 +1,4 @@
+(executable
+ (public_name rwo)
+ (name main)
+ (libraries base core rwo))
