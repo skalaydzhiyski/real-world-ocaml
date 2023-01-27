@@ -60,3 +60,23 @@ let sum_of_list nums =
   let sum = ref 0 in
   List.iter nums ~f:(fun current -> sum := !sum + current);
   !sum
+
+let random_permutation array =
+  let length = Array.length array in
+  for left = 0 to length - 2 do
+    let right = left + Random.int (length - left) in
+    let temp = array.(left) in
+    array.(left) <- array.(right);
+    array.(right) <- temp
+  done
+
+let custom_sum_of_array array =
+  let length = Array.length array in
+  let current_idx = ref 0 in
+  let sum = ref 0 in
+  while !current_idx < length do
+    sum := !sum + array.(!current_idx);
+    current_idx := !current_idx + 1;
+    Stdio.print_endline (Int.to_string !sum)
+  done;
+  !sum
