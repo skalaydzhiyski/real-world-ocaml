@@ -28,8 +28,8 @@ let magnitude { x; y } =
 let distance p1 p2 =
   magnitude { x = p1.x -. p2.x; y = p1.y -. p2.y }
 
-type circle_desc = { center: point2d; radius: float }
-type rect_desc = { lower: point2d; width: float; height: float}
+type circle_desc  = { center: point2d; radius: float }
+type rect_desc    = { lower: point2d; width: float; height: float }
 type segment_desc = { endpoint1: point2d; endpoint2: point2d }
 
 type scene =
@@ -80,3 +80,65 @@ let custom_sum_of_array array =
     Stdio.print_endline (Int.to_string !sum)
   done;
   !sum
+
+let double_number_until upper_bound ~verbose =
+  let number = ref 1 in
+  while not (phys_equal !number upper_bound) do
+    number := !number * 2;
+    if verbose then
+      Stdio.printf "Current number (%d/%d)..\n" !number upper_bound
+  done;
+  !number
+              
+let local_path =
+  "/opt/local/bin:/opt/local/sbin:/Users/e1211913/.opam/default/bin:/Users/e1211913/.cabal/bin:/Users/e1211913/.ghcup/bin:/Users/e1211913/useful:/Users/e1211913/miniconda3/bin:/usr/local/sbin:/Users/e1211913/bin:/Users/e1211913/.local/bin:/Users/e1211913/.cabal/bin:/Users/e1211913/.ghcup/bin:/Users/e1211913/useful:/Users/e1211913/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/local/bin:/opt/local/sbin:/Users/e1211913/.cabal/bin:/Users/e1211913/.ghcup/bin:/Users/e1211913/useful:/Users/e1211913/miniconda3/bin:/usr/local/sbin:/Users/e1211913/miniconda3/condabin:/Users/e1211913/bin:/Users/e1211913/.local/bin:/Users/e1211913/.cargo/bin"
+
+(* IMPORTANT -> OCAML has associatity of custom operators determined by the FIRST char in the operator *)
+let (|>) x f = f x
+let left_associative_chain path =
+  String.split ~on:':' path
+  |> List.dedup_and_sort ~compare:String.compare
+  |> List.iter ~f:Stdio.print_endline
+
+(* don't do this, we just needed an example *)
+let (^>) x f = f x
+let right_associative_chain path =
+  (String.split ~on:':' path
+   ^> List.dedup_and_sort ~compare:String.compare)
+  ^> List.iter ~f:Stdio.print_endline
+
+let three_functions f g h x = f @@ g @@ h x
+
+let some_or_default default = function
+  | None -> default
+  | Some x -> x
+
+let some_or_def_list lst =
+  List.map ~f:(some_or_default 128) lst
+
+let rec drop_from_list lst elem =
+  match lst with
+  | [] -> []
+  | h :: t ->
+    if h = elem then drop_from_list t elem
+    else h :: drop_from_list t elem
+
+(* fast *)
+let add_one_fast_match x =
+  match x with
+  | 0 -> 1
+  | 1 -> 2
+  | 2 -> 3
+  | 3 -> 4
+  | 4 -> 5
+  | _ -> 128
+
+(* slow *)
+let add_one_slow_match x =
+  if x = 0 then 1
+  else if x = 1 then 2
+  else if x = 2 then 3
+  else if x = 3 then 4
+  else if x = 4 then 5
+  else 128
+
