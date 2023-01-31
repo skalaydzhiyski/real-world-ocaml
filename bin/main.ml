@@ -142,3 +142,48 @@ let add_one_slow_match x =
   else if x = 4 then 5
   else 128
 
+(* ------------------ Lists -------------------------- *)
+
+let header = ["language"; "architect"; "first_release"]
+let rows   = [
+  ["Lisp"; "John McCarthy"; "1958"];
+  ["C"; "Denis Ritchie"; "1969"];
+  ["OCaml"; "Xavier Leroy"; "1996"];
+  ["Haskell"; "Simon Peyton Jones"; "1990"]
+]
+
+let max_widths header rows =
+  let lengths lst = List.map ~f:String.length lst in
+  List.fold
+    ~f:(fun ac row -> List.map2_exn ~f:Int.max ac (lengths row))
+    ~init:(lengths header)
+    rows
+
+let render_separator widths =
+  let start_ = "|-" in
+  let end_   = "-|" in
+  let pieces = List.map ~f:(fun w -> String.make w '-') widths in
+  start_ ^ String.concat ~sep:"-+-" pieces ^ end_
+
+let pad s length =
+  s ^ String.make (length - String.length s) ' '
+
+let render_row row widths =
+  let start_ = "| " in
+  let end_   = " |" in
+  let padded = List.map2_exn ~f:pad row widths in
+  start_ ^ String.concat ~sep:" | " padded ^ end_
+  
+let render_table header rows =
+  let widths = max_widths header rows in
+  String.concat ~sep:"\n" (
+    render_separator widths
+    :: render_row header widths
+    :: render_separator widths
+    :: List.append
+        (List.map ~f:(fun row -> render_row row widths) rows)
+        [render_separator widths]
+  )
+
+(* ------------------ Lists -------------------------- *)
+
