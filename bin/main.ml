@@ -168,22 +168,43 @@ let render_separator widths =
 let pad s length =
   s ^ String.make (length - String.length s) ' '
 
-let render_row row widths =
+let render_row row ~widths =
   let start_ = "| " in
   let end_   = " |" in
   let padded = List.map2_exn ~f:pad row widths in
   start_ ^ String.concat ~sep:" | " padded ^ end_
-  
+
 let render_table header rows =
   let widths = max_widths header rows in
+  let rendered_data = List.map ~f:(render_row ~widths) rows in
+  let separator = render_separator widths in
   String.concat ~sep:"\n" (
-    render_separator widths
-    :: render_row header widths
-    :: render_separator widths
-    :: List.append
-        (List.map ~f:(fun row -> render_row row widths) rows)
-        [render_separator widths]
+    separator
+    :: render_row header ~widths
+    :: separator
+    :: rendered_data @ [separator]
   )
+
+let filter_map ~fcond ~f lst =
+  List.filter_map ~f:(fun x -> if fcond x then Some (f x) else None) lst
+
+let filter_map_use =
+  filter_map ~fcond:(fun x -> x % 2 <> 0) ~f:(fun x -> x ** 2) [1;2;3;4;5]
+      
+let map_to_first_partition ~fcond ~f lst  =
+  let open Core in
+  let pmf = fun x -> if fcond x then First (f x) else Second x in
+  let (first, _) = List.partition_map ~f:pmf lst in
+  first
+
+let map_to_first_partition_use =
+  map_to_first_partition ~fcond:(fun x -> x % 2 <> 0) ~f:(fun x -> x ** 2) [1;2;3;4;5]
+
+let custom_concat_use =
+ List.fold ~init:[] ~f:(fun ac current -> ac @ current) [[1;2];[3;4];[5;6]]
+
+let concat_map_use =
+  List.concat_map ~f:(fun x -> [List.length x ** 2]) [[1;2];[3;4];[5;6]]
 
 (* ------------------ Lists -------------------------- *)
 
