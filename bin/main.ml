@@ -90,8 +90,7 @@ let double_number_until upper_bound ~verbose =
   done;
   !number
               
-let local_path =
-  "/opt/local/bin:/opt/local/sbin:/Users/e1211913/.opam/default/bin:/Users/e1211913/.cabal/bin:/Users/e1211913/.ghcup/bin:/Users/e1211913/useful:/Users/e1211913/miniconda3/bin:/usr/local/sbin:/Users/e1211913/bin:/Users/e1211913/.local/bin:/Users/e1211913/.cabal/bin:/Users/e1211913/.ghcup/bin:/Users/e1211913/useful:/Users/e1211913/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/local/bin:/opt/local/sbin:/Users/e1211913/.cabal/bin:/Users/e1211913/.ghcup/bin:/Users/e1211913/useful:/Users/e1211913/miniconda3/bin:/usr/local/sbin:/Users/e1211913/miniconda3/condabin:/Users/e1211913/bin:/Users/e1211913/.local/bin:/Users/e1211913/.cargo/bin"
+let local_path = "something:somethingelse:somethingelseevenmore"
 
 (* IMPORTANT -> OCAML has associatity of custom operators determined by the FIRST char in the operator *)
 let (|>) x f = f x
@@ -198,13 +197,20 @@ let map_to_first_partition ~fcond ~f lst  =
   first
 
 let map_to_first_partition_use =
-  map_to_first_partition ~fcond:(fun x -> x % 2 <> 0) ~f:(fun x -> x ** 2) [1;2;3;4;5]
+  map_to_first_partition
+    ~fcond:(fun x -> x % 2 <> 0) ~f:(fun x -> x ** 2)
+    [1;2;3;4;5]
 
 let custom_concat_use =
- List.fold ~init:[] ~f:(fun ac current -> ac @ current) [[1;2];[3;4];[5;6]]
+  List.fold
+    ~init:[]
+    ~f:(fun ac current -> ac @ current)
+    [[1;2];[3;4];[5;6]]
 
 let concat_map_use =
-  List.concat_map ~f:(fun x -> [List.length x ** 2]) [[1;2];[3;4];[5;6]]
+  List.concat_map
+    ~f:(fun x -> [List.length x ** 2])
+    [[1;2];[3;4];[5;6]]
 
 (* ------------------ Lists -------------------------- *)
 
