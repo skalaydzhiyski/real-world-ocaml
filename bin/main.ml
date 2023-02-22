@@ -1,5 +1,7 @@
 open Base
 
+let id = fun x -> x
+
 let rec remove_sequential_duplicates lst =
   match lst with
   | [] -> []
@@ -212,5 +214,38 @@ let concat_map_use =
     ~f:(fun x -> [List.length x ** 2])
     [[1;2];[3;4];[5;6]]
 
-(* ------------------ Lists -------------------------- *)
 
+(* tail recursion *)
+let rec length_non_tail = function
+  | [] -> 0
+  | _ :: tl -> 1 + length_non_tail tl
+
+let rec length_tail lst acc =
+  match lst with
+  | [] -> acc
+  | _ :: tl -> length_tail tl (acc + 1)
+
+
+let rec sum_evens_non_tail = function
+  | [] -> 0
+  | hd :: tl ->
+    if hd % 2 = 0 then hd + sum_evens_non_tail tl
+    else sum_evens_non_tail tl
+
+let rec sum_evens_tail lst acc =
+  match lst with
+  | [] -> acc
+  | hd :: tl ->
+    sum_evens_tail tl
+    @@ acc + (if hd % 2 = 0 then hd else 0)
+  
+let rec remove_sequential_duplicates_better lst =
+  match lst with
+  | [] | [_] as l -> l
+  | first :: (second :: _ as tail) ->
+    if first = second then
+      remove_sequential_duplicates_better tail
+    else
+      first :: remove_sequential_duplicates_better tail
+        
+  
