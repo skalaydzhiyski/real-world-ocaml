@@ -1,4 +1,4 @@
 (executable
  (public_name rwo)
  (name main)
- (libraries base core core_bench re rwo))
+ (libraries base core core_bench re ppx_jane rwo))
