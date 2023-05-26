@@ -42,7 +42,8 @@ let fib = make_rec fib_norec
 (** corecursion + memoisation *)
 let memo_rec m f_norec x =
   let fref = ref (fun _ -> assert false) in
-  let fmem = memoize m (fun x -> f_norec !fref x) in
+  let f x = f_norec !fref x in
+  let fmem = memoize m f in
   fref := fmem;
   fmem x
 
