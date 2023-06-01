@@ -1,8 +1,8 @@
 open Core
 
 (** IO stdin *)
-let print_timezone_message () =
-  printf "Pick a timezone: %!"; (** [%!] is required in the format string to flush the buffer *)
+let () =
+  printf "Pick a timezone: %!"; (* `%!` is required in the format string to flush the buffer *)
   match In_channel.(input_line stdin) with
   | None -> failwith "No timezone provided"
   | Some timezone ->
